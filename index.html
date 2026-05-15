@@ -1021,26 +1021,77 @@
 </footer>
 
 <script>
-  // Scroll fade-in
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-  // Nav scroll effect
-  window.addEventListener('scroll', () => {
-    const nav = document.querySelector('nav');
-    if (window.scrollY > 50) {
-      nav.style.padding = '1rem 4rem';
-    } else {
-      nav.style.padding = '1.5rem 4rem';
+// Fade-in (marad)
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
     }
   });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Navbar scroll effect (marad)
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  if (window.scrollY > 50) {
+    nav.style.padding = '1rem 4rem';
+  } else {
+    nav.style.padding = '1.5rem 4rem';
+  }
+});
+
+
+// ✅ NYELVVÁLTÓ (EZ AZ ÚJ RÉSZ)
+
+let lang = "hu";
+
+const translations = {
+  hu: {
+    menu1: "Kutatás",
+    menu2: "Küldetés",
+    menu3: "Menetrend",
+    menu4: "Kapcsolat",
+    heroEyebrow: "Európai Kutatási Kezdeményezés",
+    heroTitle: "Az elektromágneses tudomány jövője épül.",
+    heroDesc: "A NEPEBE Európa élvonalbeli elektromágneses kutatóintézete — a következő generáció energetikai és rezonancia rendszereit fejlesztjük.",
+    cta: "Kutatási területek",
+    scroll: "Görgessen le"
+  },
+  en: {
+    menu1: "Research",
+    menu2: "Mission",
+    menu3: "Timeline",
+    menu4: "Contact",
+    heroEyebrow: "European Research Initiative",
+    heroTitle: "The future of electromagnetic science is being built.",
+    heroDesc: "NEPEBE is a leading European electromagnetic research institute — developing next-generation energy and resonance systems.",
+    cta: "Research Areas",
+    scroll: "Scroll down"
+  }
+};
+
+document.querySelector('.nav-lang').addEventListener('click', () => {
+  lang = lang === "hu" ? "en" : "hu";
+
+  // Menü
+  document.querySelectorAll('.nav-links a')[0].textContent = translations[lang].menu1;
+  document.querySelectorAll('.nav-links a')[1].textContent = translations[lang].menu2;
+  document.querySelectorAll('.nav-links a')[2].textContent = translations[lang].menu3;
+  document.querySelectorAll('.nav-links a')[3].textContent = translations[lang].menu4;
+
+  // Hero
+  document.querySelector('.hero-eyebrow').textContent = translations[lang].heroEyebrow;
+  document.querySelector('.hero-title').textContent = translations[lang].heroTitle;
+  document.querySelector('.hero-desc').textContent = translations[lang].heroDesc;
+  document.querySelector('.hero-cta').childNodes[0].textContent = translations[lang].cta + " ";
+  document.querySelector('.scroll-hint').lastChild.textContent = translations[lang].scroll;
+
+  // Gomb felirat
+  document.querySelector('.nav-lang').textContent =
+    lang === "hu" ? "HU / EN" : "EN / HU";
+});
 </script>
 </body>
 </html>
