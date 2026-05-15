@@ -727,7 +727,7 @@
     <li><a href="#idovonal">Menetrend</a></li>
     <li><a href="#kapcsolat">Kapcsolat</a></li>
   </ul>
-  <a href="en.html" class="nav-lang">EN</a>
+  <div class="nav-lang">HU / EN</div>
 </nav>
 
 <!-- HERO -->
@@ -855,7 +855,7 @@
 <section class="research" id="kutatas" style="padding: 7rem 4rem;">
   <div class="fade-in">
     <div class="section-label" style="color: var(--gold-light);">Kutatási területek</div>
-    <h2 class="section-title" style="color: var(--white);">Hat <em>pilléren</em><br>nyugvó tudomány</h2>
+    <h2 class="section-title" style="color: var(--white);">Négy <em>pilléren</em><br>nyugvó tudomány</h2>
   </div>
   <div class="research-grid fade-in">
     <div class="research-card">
@@ -1021,99 +1021,26 @@
 </footer>
 
 <script>
-// Fade-in
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add('visible');
-  });
-}, { threshold: 0.1 });
+  // Scroll fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
 
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-// Navbar scroll
-window.addEventListener('scroll', () => {
-  const nav = document.querySelector('nav');
-  nav.style.padding = window.scrollY > 50 ? '1rem 4rem' : '1.5rem 4rem';
-});
-
-
-// ✅ TELJES SZÖVEG CSERE
-
-let isEnglish = false;
-
-const dict = {
-  "Kutatás": "Research",
-  "Küldetés": "Mission",
-  "Menetrend": "Timeline",
-  "Kapcsolat": "Contact",
-
-  "Európai Kutatási Kezdeményezés": "European Research Initiative",
-  "Az elektromágneses": "The electromagnetic",
-  "tudomány": "science",
-  "jövője épül.": "is being built.",
-
-  "Kutatási területek": "Research Areas",
-  "Görgessen le": "Scroll down",
-
-  "Miért létezik": "Why does it exist",
-  "A NEPEBE ezt a szerepet tölti be": "NEPEBE fulfills this role",
-
-  "Függetlenség": "Independence",
-  "Nyitottság": "Openness",
-  "Hosszútáv": "Long-term",
-  "Innováció": "Innovation",
-
-  "Fejlesztési menetrend": "Development Timeline",
-
-  "Lépjen": "Get",
-  "kapcsolatba": "in touch",
-  "velünk": "with us",
-
-  "Kapcsolat": "Contact",
-
-  "Neve": "Name",
-  "Szervezet / Intézmény": "Organization",
-  "E-mail cím": "Email",
-  "Üzenet": "Message",
-  "Üzenet küldése": "Send Message"
-};
-
-
-// 🔁 SZÖVEG CSERE FUNKCIÓ
-
-function translatePage() {
-  const walker = document.createTreeWalker(
-    document.body,
-    NodeFilter.SHOW_TEXT,
-    null,
-    false
-  );
-
-  let node;
-  while (node = walker.nextNode()) {
-    let text = node.nodeValue.trim();
-
-    if (dict[text]) {
-      node.nodeValue = dict[text];
+  // Nav scroll effect
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 50) {
+      nav.style.padding = '1rem 4rem';
+    } else {
+      nav.style.padding = '1.5rem 4rem';
     }
-  }
-}
-
-
-// 🔁 VÁLTÁS
-
-document.querySelector('.nav-lang').addEventListener('click', () => {
-
-  if (!isEnglish) {
-    translatePage();
-    document.querySelector('.nav-lang').textContent = "EN / HU";
-    isEnglish = true;
-  } else {
-    location.reload(); // vissza magyarra
-  }
-
-});
+  });
 </script>
-``
 </body>
 </html>
