@@ -1024,9 +1024,7 @@
 // Fade-in
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
+    if (entry.isIntersecting) entry.target.classList.add('visible');
   });
 }, { threshold: 0.1 });
 
@@ -1039,132 +1037,83 @@ window.addEventListener('scroll', () => {
 });
 
 
-// ✅ TELJES NYELVVÁLTÓ
+// ✅ TELJES SZÖVEG CSERE
 
-let lang = "hu";
+let isEnglish = false;
 
-const T = {
-  en: {
-    // NAV
-    nav: ["Research", "Mission", "Timeline", "Contact"],
+const dict = {
+  "Kutatás": "Research",
+  "Küldetés": "Mission",
+  "Menetrend": "Timeline",
+  "Kapcsolat": "Contact",
 
-    // HERO
-    heroEyebrow: "European Research Initiative",
-    heroTitle: "The future of electromagnetic science is being built.",
-    heroDesc: "NEPEBE is a leading European electromagnetic research institute — developing next-generation energy and resonance systems.",
-    cta: "Research Areas",
-    scroll: "Scroll down",
+  "Európai Kutatási Kezdeményezés": "European Research Initiative",
+  "Az elektromágneses": "The electromagnetic",
+  "tudomány": "science",
+  "jövője épül.": "is being built.",
 
-    // MISSION
-    missionLabel: "Mission",
-    missionTitle: "Why does NEPEBE exist?",
-    missionText1: "Electromagnetic technologies are shaping the future of energy, medicine and industry. Europe needs an independent, high-level research institute.",
-    missionQuote: "\"Science has no borders — but institutions must take root.\"",
-    missionText2: "NEPEBE fulfills this role: a European scientific community with open collaboration and long-term research ecosystem.",
+  "Kutatási területek": "Research Areas",
+  "Görgessen le": "Scroll down",
 
-    pillars: [
-      ["Independence", "European-based neutral research framework."],
-      ["Openness", "Collaboration with universities and industry."],
-      ["Long-term", "Planning beyond 2030 research horizon."],
-      ["Innovation", "From prototypes to industrial applications."]
-    ],
+  "Miért létezik": "Why does it exist",
+  "A NEPEBE ezt a szerepet tölti be": "NEPEBE fulfills this role",
 
-    // RESEARCH TITLE
-    researchLabel: "Research Areas",
-    researchTitle: "Science built on four pillars",
+  "Függetlenség": "Independence",
+  "Nyitottság": "Openness",
+  "Hosszútáv": "Long-term",
+  "Innováció": "Innovation",
 
-    // TIMELINE
-    timelineLabel: "Development Timeline",
-    timelineTitle: "Steps of the future",
+  "Fejlesztési menetrend": "Development Timeline",
 
-    timelinePhases: [
-      ["Foundation & Platform", "Institution creation and setup."],
-      ["Simulations", "Research systems and partnerships."],
-      ["Prototypes", "Experimental development."],
-      ["Scaling", "Full lab and industry expansion."]
-    ],
+  "Lépjen": "Get",
+  "kapcsolatba": "in touch",
+  "velünk": "with us",
 
-    // CONTACT
-    contactLabel: "Contact",
-    contactTitle: "Get in touch with us",
-    contactText: "Interested in collaboration or joining NEPEBE?",
+  "Kapcsolat": "Contact",
 
-    contactForm: [
-      "Name",
-      "Organization",
-      "Email",
-      "Message",
-      "Send Message"
-    ]
-  }
+  "Neve": "Name",
+  "Szervezet / Intézmény": "Organization",
+  "E-mail cím": "Email",
+  "Üzenet": "Message",
+  "Üzenet küldése": "Send Message"
 };
+
+
+// 🔁 SZÖVEG CSERE FUNKCIÓ
+
+function translatePage() {
+  const walker = document.createTreeWalker(
+    document.body,
+    NodeFilter.SHOW_TEXT,
+    null,
+    false
+  );
+
+  let node;
+  while (node = walker.nextNode()) {
+    let text = node.nodeValue.trim();
+
+    if (dict[text]) {
+      node.nodeValue = dict[text];
+    }
+  }
+}
 
 
 // 🔁 VÁLTÁS
 
 document.querySelector('.nav-lang').addEventListener('click', () => {
 
-  lang = lang === "hu" ? "en" : "hu";
-
-  if (lang === "hu") location.reload(); // vissza magyarra reload → egyszerűbb
-
-  const t = T.en;
-
-  // NAV
-  document.querySelectorAll('.nav-links a').forEach((el, i) => {
-    el.textContent = t.nav[i];
-  });
-
-  // HERO
-  document.querySelector('.hero-eyebrow').textContent = t.heroEyebrow;
-  document.querySelector('.hero-title').textContent = t.heroTitle;
-  document.querySelector('.hero-desc').textContent = t.heroDesc;
-  document.querySelector('.hero-cta').childNodes[0].textContent = t.cta + " ";
-  document.querySelector('.scroll-hint').lastChild.textContent = t.scroll;
-
-  // MISSION
-  document.querySelector('#misszio .section-label').textContent = t.missionLabel;
-  document.querySelector('#misszio .section-title').textContent = t.missionTitle;
-
-  document.querySelectorAll('#misszio p')[0].textContent = t.missionText1;
-  document.querySelector('.mission-pull').textContent = t.missionQuote;
-  document.querySelectorAll('#misszio p')[1].textContent = t.missionText2;
-
-  document.querySelectorAll('.pillar').forEach((el, i) => {
-    el.querySelector('.pillar-title').textContent = t.pillars[i][0];
-    el.querySelector('.pillar-desc').textContent = t.pillars[i][1];
-  });
-
-  // RESEARCH
-  document.querySelector('#kutatas .section-label').textContent = t.researchLabel;
-  document.querySelector('#kutatas .section-title').textContent = t.researchTitle;
-
-  // TIMELINE
-  document.querySelector('#idovonal .section-label').textContent = t.timelineLabel;
-  document.querySelector('#idovonal .section-title').textContent = t.timelineTitle;
-
-  document.querySelectorAll('.timeline-item').forEach((el, i) => {
-    el.querySelector('.timeline-phase').textContent = t.timelinePhases[i][0];
-    el.querySelector('.timeline-desc').textContent = t.timelinePhases[i][1];
-  });
-
-  // CONTACT
-  document.querySelector('#kapcsolat .section-label').textContent = t.contactLabel;
-  document.querySelector('#kapcsolat .section-title').textContent = t.contactTitle;
-  document.querySelector('.contact-info h3').textContent = t.contactText;
-
-  const labels = document.querySelectorAll('.form-label');
-  labels[0].textContent = t.contactForm[0];
-  labels[1].textContent = t.contactForm[1];
-  labels[2].textContent = t.contactForm[2];
-  labels[3].textContent = t.contactForm[3];
-
-  document.querySelector('.submit-btn').textContent = t.contactForm[4];
-
-  // GOMB
-  document.querySelector('.nav-lang').textContent = "EN / HU";
+  if (!isEnglish) {
+    translatePage();
+    document.querySelector('.nav-lang').textContent = "EN / HU";
+    isEnglish = true;
+  } else {
+    location.reload(); // vissza magyarra
+  }
 
 });
 </script>
+``
 </body>
 </html>
