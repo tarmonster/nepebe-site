@@ -1021,7 +1021,7 @@
 </footer>
 
 <script>
-// Fade-in (marad)
+// Fade-in
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -1032,65 +1032,138 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-// Navbar scroll effect (marad)
+// Navbar scroll
 window.addEventListener('scroll', () => {
   const nav = document.querySelector('nav');
-  if (window.scrollY > 50) {
-    nav.style.padding = '1rem 4rem';
-  } else {
-    nav.style.padding = '1.5rem 4rem';
-  }
+  nav.style.padding = window.scrollY > 50 ? '1rem 4rem' : '1.5rem 4rem';
 });
 
 
-// ✅ NYELVVÁLTÓ (EZ AZ ÚJ RÉSZ)
+// ✅ TELJES NYELVVÁLTÓ
 
 let lang = "hu";
 
-const translations = {
-  hu: {
-    menu1: "Kutatás",
-    menu2: "Küldetés",
-    menu3: "Menetrend",
-    menu4: "Kapcsolat",
-    heroEyebrow: "Európai Kutatási Kezdeményezés",
-    heroTitle: "Az elektromágneses tudomány jövője épül.",
-    heroDesc: "A NEPEBE Európa élvonalbeli elektromágneses kutatóintézete — a következő generáció energetikai és rezonancia rendszereit fejlesztjük.",
-    cta: "Kutatási területek",
-    scroll: "Görgessen le"
-  },
+const T = {
   en: {
-    menu1: "Research",
-    menu2: "Mission",
-    menu3: "Timeline",
-    menu4: "Contact",
+    // NAV
+    nav: ["Research", "Mission", "Timeline", "Contact"],
+
+    // HERO
     heroEyebrow: "European Research Initiative",
     heroTitle: "The future of electromagnetic science is being built.",
     heroDesc: "NEPEBE is a leading European electromagnetic research institute — developing next-generation energy and resonance systems.",
     cta: "Research Areas",
-    scroll: "Scroll down"
+    scroll: "Scroll down",
+
+    // MISSION
+    missionLabel: "Mission",
+    missionTitle: "Why does NEPEBE exist?",
+    missionText1: "Electromagnetic technologies are shaping the future of energy, medicine and industry. Europe needs an independent, high-level research institute.",
+    missionQuote: "\"Science has no borders — but institutions must take root.\"",
+    missionText2: "NEPEBE fulfills this role: a European scientific community with open collaboration and long-term research ecosystem.",
+
+    pillars: [
+      ["Independence", "European-based neutral research framework."],
+      ["Openness", "Collaboration with universities and industry."],
+      ["Long-term", "Planning beyond 2030 research horizon."],
+      ["Innovation", "From prototypes to industrial applications."]
+    ],
+
+    // RESEARCH TITLE
+    researchLabel: "Research Areas",
+    researchTitle: "Science built on four pillars",
+
+    // TIMELINE
+    timelineLabel: "Development Timeline",
+    timelineTitle: "Steps of the future",
+
+    timelinePhases: [
+      ["Foundation & Platform", "Institution creation and setup."],
+      ["Simulations", "Research systems and partnerships."],
+      ["Prototypes", "Experimental development."],
+      ["Scaling", "Full lab and industry expansion."]
+    ],
+
+    // CONTACT
+    contactLabel: "Contact",
+    contactTitle: "Get in touch with us",
+    contactText: "Interested in collaboration or joining NEPEBE?",
+
+    contactForm: [
+      "Name",
+      "Organization",
+      "Email",
+      "Message",
+      "Send Message"
+    ]
   }
 };
 
+
+// 🔁 VÁLTÁS
+
 document.querySelector('.nav-lang').addEventListener('click', () => {
+
   lang = lang === "hu" ? "en" : "hu";
 
-  // Menü
-  document.querySelectorAll('.nav-links a')[0].textContent = translations[lang].menu1;
-  document.querySelectorAll('.nav-links a')[1].textContent = translations[lang].menu2;
-  document.querySelectorAll('.nav-links a')[2].textContent = translations[lang].menu3;
-  document.querySelectorAll('.nav-links a')[3].textContent = translations[lang].menu4;
+  if (lang === "hu") location.reload(); // vissza magyarra reload → egyszerűbb
 
-  // Hero
-  document.querySelector('.hero-eyebrow').textContent = translations[lang].heroEyebrow;
-  document.querySelector('.hero-title').textContent = translations[lang].heroTitle;
-  document.querySelector('.hero-desc').textContent = translations[lang].heroDesc;
-  document.querySelector('.hero-cta').childNodes[0].textContent = translations[lang].cta + " ";
-  document.querySelector('.scroll-hint').lastChild.textContent = translations[lang].scroll;
+  const t = T.en;
 
-  // Gomb felirat
-  document.querySelector('.nav-lang').textContent =
-    lang === "hu" ? "HU / EN" : "EN / HU";
+  // NAV
+  document.querySelectorAll('.nav-links a').forEach((el, i) => {
+    el.textContent = t.nav[i];
+  });
+
+  // HERO
+  document.querySelector('.hero-eyebrow').textContent = t.heroEyebrow;
+  document.querySelector('.hero-title').textContent = t.heroTitle;
+  document.querySelector('.hero-desc').textContent = t.heroDesc;
+  document.querySelector('.hero-cta').childNodes[0].textContent = t.cta + " ";
+  document.querySelector('.scroll-hint').lastChild.textContent = t.scroll;
+
+  // MISSION
+  document.querySelector('#misszio .section-label').textContent = t.missionLabel;
+  document.querySelector('#misszio .section-title').textContent = t.missionTitle;
+
+  document.querySelectorAll('#misszio p')[0].textContent = t.missionText1;
+  document.querySelector('.mission-pull').textContent = t.missionQuote;
+  document.querySelectorAll('#misszio p')[1].textContent = t.missionText2;
+
+  document.querySelectorAll('.pillar').forEach((el, i) => {
+    el.querySelector('.pillar-title').textContent = t.pillars[i][0];
+    el.querySelector('.pillar-desc').textContent = t.pillars[i][1];
+  });
+
+  // RESEARCH
+  document.querySelector('#kutatas .section-label').textContent = t.researchLabel;
+  document.querySelector('#kutatas .section-title').textContent = t.researchTitle;
+
+  // TIMELINE
+  document.querySelector('#idovonal .section-label').textContent = t.timelineLabel;
+  document.querySelector('#idovonal .section-title').textContent = t.timelineTitle;
+
+  document.querySelectorAll('.timeline-item').forEach((el, i) => {
+    el.querySelector('.timeline-phase').textContent = t.timelinePhases[i][0];
+    el.querySelector('.timeline-desc').textContent = t.timelinePhases[i][1];
+  });
+
+  // CONTACT
+  document.querySelector('#kapcsolat .section-label').textContent = t.contactLabel;
+  document.querySelector('#kapcsolat .section-title').textContent = t.contactTitle;
+  document.querySelector('.contact-info h3').textContent = t.contactText;
+
+  const labels = document.querySelectorAll('.form-label');
+  labels[0].textContent = t.contactForm[0];
+  labels[1].textContent = t.contactForm[1];
+  labels[2].textContent = t.contactForm[2];
+  labels[3].textContent = t.contactForm[3];
+
+  document.querySelector('.submit-btn').textContent = t.contactForm[4];
+
+  // GOMB
+  document.querySelector('.nav-lang').textContent = "EN / HU";
+
 });
 </script>
 </body>
